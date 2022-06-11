@@ -22,6 +22,45 @@ function playRound(playerSelection, computerSelection) {
 
 let result;
 
+let chances = 5;
+let wins = losses = 0;
+
+let resdiv = document.querySelector('.result');
+let chancediv = document.querySelector('.chances-left');
+let scorediv = document.querySelector('.player-score');
+
+function logText(e) {
+    if (chances==0 | wins>2){
+        return;
+    }
+
+    // console.log(this.classList.value);
+    const playerSelection = this.classList.value;
+    const computerSelection = computerPlay(); 
+    console.log(playerSelection, computerSelection);
+    if (playerSelection == computerSelection) {
+        chances -= 1
+    } else {
+        const result = playRound(playerSelection, computerSelection);
+        result==0?losses+=1:wins+=1;
+        chances-=1
+    }
+
+    chancediv.textContent = chances;
+    scorediv.textContent = wins;
+
+    if (chances==0 | wins>2) {
+        resdiv.textContent = "You Win".repeat(wins>losses) + "You Lost".repeat(wins<losses) + "It's a Draw!".repeat(wins==losses);
+    }
+
+  }
+
+const buttons = document.querySelectorAll('button');
+
+buttons.forEach(button => button.addEventListener('click', logText));
+
+
+
 function game(){
     let wins = losses = 0;
     for (let i = 0; i < 5; i++) {
